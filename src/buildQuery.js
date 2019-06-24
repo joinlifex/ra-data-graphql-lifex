@@ -43,7 +43,7 @@ export const buildQueryFactory = (
             aorFetchType,
             queryType,
             variables,
-            fargment
+            fragment
         );
         const parseResponse = getResponseParserImpl(introspectionResults)(
             aorFetchType,
