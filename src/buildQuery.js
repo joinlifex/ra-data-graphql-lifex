@@ -9,7 +9,7 @@ export const buildQueryFactory = (
 ) => introspectionResults => {
     const knownResources = introspectionResults.resources.map(r => r.type.name);
 
-    return (aorFetchType, resourceName, params) => {
+    return (aorFetchType, resourceName, params, fragment) => {
         const resource = introspectionResults.resources.find(
             r => r.type.name === resourceName
         );
@@ -42,7 +42,8 @@ export const buildQueryFactory = (
             resource,
             aorFetchType,
             queryType,
-            variables
+            variables,
+            fargment
         );
         const parseResponse = getResponseParserImpl(introspectionResults)(
             aorFetchType,
