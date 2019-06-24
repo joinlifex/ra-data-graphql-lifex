@@ -89,7 +89,7 @@ const prepareParams = (params, queryType, introspectionResults) => {
             return;
         }
 
-        result[key] = castType(param, arg.type, introspectionResults.types);
+        result[key] = castType(param, arg.type.ofType || arg.type, introspectionResults.types);
     });
 
     return result;
