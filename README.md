@@ -1,7 +1,8 @@
-# ra-data-graphql-simple
+# ra-data-graphql-lifex
 
 A GraphQL data provider for [react-admin](https://github.com/marmelab/react-admin/)
 built with [Apollo](http://www.apollodata.com/) and tailored to target a simple GraphQL implementation.
+It is based on [ra-data-graphql-simple](https://github.com/marmelab/react-admin/tree/master/packages/ra-data-graphql-simple)
 
 - [Installation](#installation)
 - [Usage](#installation)
@@ -12,23 +13,23 @@ built with [Apollo](http://www.apollodata.com/) and tailored to target a simple 
 Install with:
 
 ```sh
-npm install --save graphql ra-data-graphql-simple
+npm install --save graphql ra-data-graphql-lifex
 ```
 
 or
 
 ```sh
-yarn add graphql ra-data-graphql-simple
+yarn add graphql ra-data-graphql-lifex
 ```
 
 ## Usage
 
-The `ra-data-graphql-simple` package exposes a single function, which is a constructor for a `dataProvider` based on a GraphQL endpoint. When executed, this function calls the GraphQL endpoint, running an [introspection](http://graphql.org/learn/introspection/) query. It uses the result of this query (the GraphQL schema) to automatically configure the `dataProvider` accordingly.
+The `ra-data-graphql-lifex` package exposes a single function, which is a constructor for a `dataProvider` based on a GraphQL endpoint. When executed, this function calls the GraphQL endpoint, running an [introspection](http://graphql.org/learn/introspection/) query. It uses the result of this query (the GraphQL schema) to automatically configure the `dataProvider` accordingly.
 
 ```js
 // in App.js
 import React, { Component } from 'react';
-import buildGraphQLProvider from 'ra-data-graphql-simple';
+import buildGraphQLProvider from 'ra-data-graphql-lifex';
 import { Admin, Resource, Delete } from 'react-admin';
 
 import { PostCreate, PostEdit, PostList } from './posts';
@@ -63,7 +64,7 @@ export default App;
 
 ## Expected GraphQL Schema
 
-The `ra-data-graphql-simple` function works against GraphQL servers that respect a certain GraphQL grammar. For instance, to handle all the actions on a `Post` resource, the GraphQL endpoint should support the following schema:
+The `ra-data-graphql-lifex` function works against GraphQL servers that respect a certain GraphQL grammar. For instance, to handle all the actions on a `Post` resource, the GraphQL endpoint should support the following schema:
 
 ```gql
 type Query {
@@ -139,7 +140,7 @@ The default behavior might not be optimized especially when dealing with referen
 
 ```js
 // in src/dataProvider.js
-import buildGraphQLProvider, { buildQuery } from 'ra-data-graphql-simple';
+import buildGraphQLProvider, { buildQuery } from 'ra-data-graphql-lifex';
 
 const myBuildQuery = introspection => (fetchType, resource, params) => {
     const builtQuery = buildQuery(introspection)(fetchType, resource, params);

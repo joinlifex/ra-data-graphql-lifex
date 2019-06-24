@@ -1,5 +1,5 @@
 {
-    "name": "ra-data-graphql-simple",
+    "name": "ra-data-graphql-lifex",
     "version": "2.9.3",
     "description": "A GraphQL simple data provider for react-admin",
     "main": "lib/index.js",
@@ -7,14 +7,15 @@
     "sideEffects": false,
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/marmelab/react-admin.git"
+        "url": "git+https://github.com/joinlifex/ra-data-graphql-lifex.git"
     },
     "bugs": {
-        "url": "https://github.com/marmelab/react-admin/issues"
+        "url": "https://github.com/joinlifex/ra-data-graphql-lifex/issues"
     },
-    "homepage": "https://github.com/marmelab/react-admin#readme",
+    "homepage": "https://github.com/joinlifex/ra-data-graphql-lifex#readme",
     "authors": [
-        "Gildas Garcia"
+        "Gildas Garcia",
+        "LifeX"
     ],
     "keywords": [
         "reactjs",
