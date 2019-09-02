@@ -147,7 +147,7 @@ export default introspectionResults => (
     const { sortField, sortOrder, ...metaVariables } = variables;
     const apolloArgs = buildApolloArgs(queryType, variables);
     const args = buildArgs(queryType, variables);
-    const metaArgs = buildArgs(queryType, metaVariables);
+    const metaArgs = buildArgs(queryType, variables);
     const fields = !!fragment ? fragment.definitions[0].selectionSet.selections : buildFields(introspectionResults)(resource.type.fields);
     if (
         aorFetchType === GET_LIST ||
