@@ -8,6 +8,8 @@ import {
     UPDATE,
     DELETE,
 } from 'ra-core';
+import flatten from 'lodash/flatten';
+
 
 import getFinalType from './getFinalType';
 import isList from './isList';
@@ -84,6 +86,10 @@ const prepareParams = (params, queryType, introspectionResults) => {
             return;
         }
 
+        if (param instanceof Object && Array.isArray(param)) {
+            param = flatten(param)
+        }
+
         if (!arg) {
             result[key] = param;
             return;
@@ -100,6 +106,7 @@ const buildGetListVariables = introspectionResults => (
     aorFetchType,
     params
 ) => {
+
     const filter = Object.keys(params.filter).reduce((acc, key) => {
         if (key === 'ids') {
             return { ...acc, ids: params.filter[key] };
