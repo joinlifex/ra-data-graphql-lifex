@@ -58,8 +58,12 @@ const prepareParams = (params, queryType, introspectionResults) => {
             return;
         }
 
-        if (queryType && Array.isArray(queryType.args)) {
+        if (!params.__typename && queryType && Array.isArray(queryType.args)) {
             arg = queryType.args.find(item => item.name === key);
+        }
+
+        if (params.__typename && queryType && Array.isArray(queryType.args)) {
+            arg = introspectionResults.types.find(item => item.name === params.__typename).fields.find(field => field.name === key);
         }
 
         if (param instanceof File) {
