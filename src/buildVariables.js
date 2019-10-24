@@ -203,6 +203,7 @@ const buildCreateUpdateVariables = () => (
     queryType
 ) =>
     Object.keys(params.data).reduce((acc, key) => {
+       
         if (Array.isArray(params.data[key])) {
             const arg = queryType.args.find(a => a.name === `${key}Ids`);
 
@@ -214,7 +215,7 @@ const buildCreateUpdateVariables = () => (
             }
         }
 
-        if (typeof params.data[key] === 'object') {
+        if (typeof params.data[key] === 'object' && params.data[key]) {
             const arg = queryType.args.find(a => a.name === `${key}Id`);
 
             if (arg) {
