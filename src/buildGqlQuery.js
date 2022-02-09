@@ -136,18 +136,40 @@ export const buildApolloArgs = (query, variables) => {
 
     return args;
 };
+const buildSpreadField = (fragment) => {
+    return gqlTypes.selectionSet([gqlTypes.fragmentSpread(gqlTypes.name(fragment.definitions[0].name.value))])
+}
+
+const isValidFragments = (fragments) => {
+    if (fragments && fragments.definitions) {
+        const notOnlyFragmentDefinitions = fragments.definitions.find(({ kind }) => kind !== 'FragmentDefinition');
+        if (notOnlyFragmentDefinitions) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    return false;
+}
 
 export default introspectionResults => (
     resource,
     aorFetchType,
     queryType,
     variables,
-    fragment
+    fragments
 ) => {
     const apolloArgs = buildApolloArgs(queryType, variables);
     const args = buildArgs(queryType, variables);
     const metaArgs = buildArgs(queryType, variables);
-    const fields = !!fragment ? fragment.definitions[0].selectionSet.selections : buildFields(introspectionResults)(resource.type.fields);
+    var fragmentDef = [];
+    var selections;
+    if (isValidFragments(fragments)) {
+        selections = buildSpreadField(fragments);
+        fragmentDef = fragments.definitions;
+    }  else {
+        selections = gqlTypes.selectionSet(buildFields(introspectionResults)(resource.type.fields));
+    }
     if (
         aorFetchType === GET_LIST ||
         aorFetchType === GET_MANY ||
@@ -162,7 +184,7 @@ export default introspectionResults => (
                         gqlTypes.name('items'),
                         args,
                         null,
-                        gqlTypes.selectionSet(fields)
+                        selections
                     ),
                     gqlTypes.field(
                         gqlTypes.name(`_${queryType.name}Meta`),
@@ -176,7 +198,7 @@ export default introspectionResults => (
                 ]),
                 gqlTypes.name(queryType.name),
                 apolloArgs
-            ),
+            ), ...fragmentDef
         ]);
     }
 
@@ -210,11 +232,11 @@ export default introspectionResults => (
                     gqlTypes.name('data'),
                     args,
                     null,
-                    gqlTypes.selectionSet(fields)
+                    selections
                 ),
             ]),
             gqlTypes.name(queryType.name),
             apolloArgs
-        ),
+        ), ...fragmentDef
     ]);
 };
