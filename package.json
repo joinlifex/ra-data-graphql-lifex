@@ -1,6 +1,6 @@
 {
     "name": "@joinlifex/ra-data-graphql-lifex",
-    "version": "3.19.10",
+    "version": "3.19.12",
     "description": "A GraphQL simple data provider for react-admin",
     "main": "lib/index.js",
     "module": "esm/index.js",
