@@ -1,6 +1,6 @@
 {
     "name": "@joinlifex/ra-data-graphql-lifex",
-    "version": "3.0.2",
+    "version": "3.19.10",
     "description": "A GraphQL simple data provider for react-admin",
     "main": "lib/index.js",
     "module": "esm/index.js",
@@ -34,19 +34,19 @@
     },
     "dependencies": {
         "graphql-ast-types-browser": "~1.0.2",
-        "graphql-tag": "^2.10.1",
+        "graphql-tag": "^2.12.4",
         "lodash": "~4.17.20",
         "pluralize": "~7.0.0",
         "ra-data-graphql": "3.19.11"
     },
     "peerDependencies": {
-        "graphql": "^14.7.0",
-        "ra-core": "^3.19.6"
+        "graphql": "^15.6.0",
+        "ra-core": "^3.9.0"
     },
     "devDependencies": {
         "cross-env": "^5.2.0",
-        "graphql": "^14.7.0",
-        "rimraf": "^2.6.2",
+        "graphql": "^15.6.0",
+        "rimraf": "^2.6.3",
         "typescript": "^4.1.3"
     }
 }
