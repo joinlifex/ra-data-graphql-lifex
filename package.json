@@ -1,6 +1,6 @@
 {
     "name": "@joinlifex/ra-data-graphql-lifex",
-    "version": "3.0.2",
+    "version": "3.19.11",
     "description": "A GraphQL simple data provider for react-admin",
     "main": "lib/index.js",
     "module": "esm/index.js",
@@ -41,7 +41,7 @@
     },
     "peerDependencies": {
         "graphql": "^14.7.0",
-        "ra-core": "^3.19.6"
+        "ra-core": "^3.19.11"
     },
     "devDependencies": {
         "cross-env": "^5.2.0",
