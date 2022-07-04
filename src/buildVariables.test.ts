@@ -9,16 +9,16 @@ import {
 import buildVariables from './buildVariables';
 
 describe('buildVariables', () => {
+    const introspectionResult = {
+        types: [
+            {
+                name: 'PostFilter',
+                inputFields: [{ name: 'tags_some' }],
+            },
+        ],
+    };
     describe('GET_LIST', () => {
         it('returns correct variables', () => {
-            const introspectionResult = {
-                types: [
-                    {
-                        name: 'PostFilter',
-                        inputFields: [{ name: 'tags_some' }],
-                    },
-                ],
-            };
             const params = {
                 filter: {
                     ids: ['foo1', 'foo2'],
@@ -66,7 +66,7 @@ describe('buildVariables', () => {
             };
 
             expect(
-                buildVariables()(
+                buildVariables(introspectionResult)(
                     { type: { name: 'Post' } },
                     CREATE,
                     params,
@@ -83,6 +83,7 @@ describe('buildVariables', () => {
     describe('UPDATE', () => {
         it('returns correct variables', () => {
             const params = {
+                id: 'post1',
                 data: {
                     author: { id: 'author1' },
                     tags: [{ id: 'tag1' }, { id: 'tag2' }],
@@ -94,13 +95,14 @@ describe('buildVariables', () => {
             };
 
             expect(
-                buildVariables()(
+                buildVariables(introspectionResult)(
                     { type: { name: 'Post' } },
                     UPDATE,
                     params,
                     queryType
                 )
             ).toEqual({
+                id: 'post1',
                 authorId: 'author1',
                 tagsIds: ['tag1', 'tag2'],
                 title: 'Foo',
@@ -115,7 +117,7 @@ describe('buildVariables', () => {
             };
 
             expect(
-                buildVariables()(
+                buildVariables(introspectionResult)(
                     { type: { name: 'Post' } },
                     GET_MANY,
                     params,
@@ -130,19 +132,25 @@ describe('buildVariables', () => {
     describe('GET_MANY_REFERENCE', () => {
         it('returns correct variables', () => {
             const params = {
-                target: 'author.id',
+                target: 'author_id',
                 id: 'author1',
+                pagination: { page: 1, perPage: 10 },
+                sort: { field: 'name', order: 'ASC' },
             };
 
             expect(
-                buildVariables()(
+                buildVariables(introspectionResult)(
                     { type: { name: 'Post' } },
                     GET_MANY_REFERENCE,
                     params,
                     {}
                 )
             ).toEqual({
-                filter: { authorId: 'author1' },
+                filter: { author_id: 'author1' },
+                page: 0,
+                perPage: 10,
+                sortField: 'name',
+                sortOrder: 'ASC',
             });
         });
     });
@@ -152,9 +160,8 @@ describe('buildVariables', () => {
             const params = {
                 id: 'post1',
             };
-
             expect(
-                buildVariables()(
+                buildVariables(introspectionResult)(
                     { type: { name: 'Post', inputFields: [] } },
                     DELETE,
                     params,

@@ -1,15 +1,17 @@
+import { IntrospectionResult, BuildQuery } from 'ra-data-graphql';
 import buildVariables from './buildVariables';
 import buildGqlQuery from './buildGqlQuery';
 import getResponseParser from './getResponseParser';
 
 export const buildQueryFactory = (
-    buildVariablesImpl,
-    buildGqlQueryImpl,
-    getResponseParserImpl
-) => introspectionResults => {
+    buildVariablesImpl = buildVariables,
+    buildGqlQueryImpl = buildGqlQuery,
+    getResponseParserImpl = getResponseParser
+) => (introspectionResults: IntrospectionResult): BuildQuery => {
     const knownResources = introspectionResults.resources.map(r => r.type.name);
 
-    return (aorFetchType, resourceName, params, fragment) => {
+    // @ts-ignore
+    const buildQuery: BuildQuery = (raFetchType, resourceName, params, fragments) => {
         const resource = introspectionResults.resources.find(
             r => r.type.name === resourceName
         );
@@ -22,31 +24,29 @@ export const buildQueryFactory = (
             );
         }
 
-        const queryType = resource[aorFetchType];
+        const queryType = resource[raFetchType];
 
         if (!queryType) {
             throw new Error(
-                `No query or mutation matching fetch type ${aorFetchType} could be found for resource ${
-                    resource.type.name
-                }`
+                `No query or mutation matching fetch type ${raFetchType} could be found for resource ${resource.type.name}`
             );
         }
 
         const variables = buildVariablesImpl(introspectionResults)(
             resource,
-            aorFetchType,
+            raFetchType,
             params,
             queryType
         );
         const query = buildGqlQueryImpl(introspectionResults)(
             resource,
-            aorFetchType,
+            raFetchType,
             queryType,
             variables,
-            fragment
+            fragments
         );
         const parseResponse = getResponseParserImpl(introspectionResults)(
-            aorFetchType,
+            raFetchType,
             resource,
             queryType
         );
@@ -57,6 +57,8 @@ export const buildQueryFactory = (
             parseResponse,
         };
     };
+
+    return buildQuery;
 };
 
 export default buildQueryFactory(

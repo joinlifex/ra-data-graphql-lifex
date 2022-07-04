@@ -67,7 +67,7 @@ describe('getArgType', () => {
 
 describe('buildArgs', () => {
     it('returns an empty array when query does not have any arguments', () => {
-        expect(buildArgs({ args: [] })).toEqual([]);
+        expect(buildArgs({ args: [] }, {})).toEqual([]);
     });
 
     it('returns an array of args correctly filtered when query has arguments', () => {
@@ -84,7 +84,7 @@ describe('buildArgs', () => {
 
 describe('buildApolloArgs', () => {
     it('returns an empty array when query does not have any arguments', () => {
-        expect(print(buildApolloArgs({ args: [] }))).toEqual([]);
+        expect(print(buildApolloArgs({ args: [] }, {}))).toEqual([]);
     });
 
     it('returns an array of args correctly filtered when query has arguments', () => {
@@ -215,6 +215,58 @@ describe('buildFieldsWithCircularDependency', () => {
         expect(print(buildFields(introspectionResults)(fields))).toEqual([
             'id',
             `linked {
+  id
+}`,
+            `resource {
+  id
+}`,
+        ]);
+    });
+});
+
+describe('buildFieldsWithSameType', () => {
+    it('returns an object with the fields to retrieve', () => {
+        const introspectionResults = {
+            resources: [{ type: { name: 'resourceType' } }],
+            types: [
+                {
+                    name: 'linkedType',
+                    fields: [
+                        {
+                            name: 'id',
+                            type: { kind: TypeKind.SCALAR, name: 'ID' },
+                        },
+                    ],
+                },
+            ],
+        };
+
+        const fields = [
+            { type: { kind: TypeKind.SCALAR, name: 'ID' }, name: 'id' },
+            {
+                type: { kind: TypeKind.SCALAR, name: '_internalField' },
+                name: 'foo1',
+            },
+            {
+                type: { kind: TypeKind.OBJECT, name: 'linkedType' },
+                name: 'linked',
+            },
+            {
+                type: { kind: TypeKind.OBJECT, name: 'linkedType' },
+                name: 'anotherLinked',
+            },
+            {
+                type: { kind: TypeKind.OBJECT, name: 'resourceType' },
+                name: 'resource',
+            },
+        ];
+
+        expect(print(buildFields(introspectionResults)(fields))).toEqual([
+            'id',
+            `linked {
+  id
+}`,
+            `anotherLinked {
   id
 }`,
             `resource {
@@ -452,7 +504,13 @@ describe('buildGqlQuery', () => {
         ).toEqual(
             `mutation deleteCommand($foo: Int!) {
   data: deleteCommand(foo: $foo) {
-    id
+    foo
+    linked {
+      foo
+    }
+    resource {
+      id
+    }
   }
 }
 `

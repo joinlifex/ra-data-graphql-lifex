@@ -5,3 +5,4 @@ node_modules
 lib
 esm
 es6
+dist
