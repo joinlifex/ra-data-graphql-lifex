@@ -50,7 +50,7 @@ const prepareParams = (params, queryType, introspectionResults) => {
     }
 
     Object.keys(params).forEach(key => {
-        const param = params[key];
+        let param = params[key];
         let arg = null;
 
         if (!param) {
