@@ -1,6 +1,6 @@
 {
     "name": "@joinlifex/ra-data-graphql-lifex",
-    "version": "4.2.0",
+    "version": "4.2.1",
     "description": "A GraphQL simple data provider for react-admin",
     "type": "module",
     "main": "./dist/index.cjs",
