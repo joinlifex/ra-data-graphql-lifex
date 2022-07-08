@@ -3,11 +3,11 @@
     "version": "4.2.1",
     "description": "A GraphQL simple data provider for react-admin",
     "type": "module",
-    "main": "./dist/index.cjs",
+    "main": "./dist/index.js",
     "module": "./dist/index.mjs",
     "exports": {
         ".": {
-            "require": "./dist/index.cjs",
+            "require": "./dist/index.js",
             "default": "./dist/index.mjs"
         }
     },
