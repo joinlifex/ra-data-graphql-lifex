@@ -1,8 +1,9 @@
 import merge from 'lodash/merge';
-import buildDataProvider, { BuildQueryFactory, Options } from 'ra-data-graphql';
 import { DataProvider, Identifier } from 'ra-core';
+import buildDataProvider, { BuildQueryFactory, Options } from 'ra-data-graphql';
 
 import defaultBuildQuery from './buildQuery';
+
 const defaultOptions = {
     buildQuery: defaultBuildQuery,
 };

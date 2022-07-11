@@ -1,16 +1,11 @@
 {
     "name": "@joinlifex/ra-data-graphql-lifex",
-    "version": "4.2.1",
+    "version": "4.2.4",
     "description": "A GraphQL simple data provider for react-admin",
     "type": "module",
-    "main": "./dist/index.js",
-    "module": "./dist/index.mjs",
-    "exports": {
-        ".": {
-            "require": "./dist/index.js",
-            "default": "./dist/index.mjs"
-        }
-    },
+    "main": "dist/ra-data-graphql-lifex.cjs",
+    "module": "dist/ra-data-graphql-lifex.mjs",
+    "typings": "dist/ra-data-graphql-lifex.d.ts",
     "types": "dist/index.d.ts",
     "sideEffects": false,
     "repository": {
@@ -42,7 +37,6 @@
         "graphql-ast-types-browser": "~1.0.2",
         "lodash": "~4.17.21",
         "pluralize": "~8.0.0",
-        "ra-core": "^4.2.0",
         "ra-data-graphql": "^4.2.0"
     },
     "peerDependencies": {
@@ -50,19 +44,16 @@
         "ra-core": "^4.2.0"
     },
     "devDependencies": {
-        "@types/jest": "^28.1.4",
-        "@types/mocha": "^9.1.1",
-        "@types/node": "^18.0.1",
+        "@rollup/plugin-commonjs": "^22.0.1",
+        "@rollup/plugin-node-resolve": "^13.3.0",
         "cross-env": "^5.2.0",
-        "esbuild": "^0.14.48",
         "graphql": "^15.6.0",
-        "npm-dts": "^1.3.11",
+        "ra-core": "^4.2.0",
         "rimraf": "^3.0.2",
-        "rollup": "^2.10.5",
-        "rollup-plugin-copy": "^3.3.0",
-        "rollup-plugin-dts": "^4.2.2",
-        "rollup-plugin-esbuild": "^4.9.1",
-        "typescript": "^4.4.0"
+        "rollup": "^2.76.0",
+        "rollup-plugin-peer-deps-external": "^2.2.4",
+        "rollup-plugin-typescript2": "^0.32.1",
+        "typescript": "^4.7.4"
     },
     "overrides": {
         "graphql-ast-types-browser": {

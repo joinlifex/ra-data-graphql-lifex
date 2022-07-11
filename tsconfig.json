@@ -2,7 +2,7 @@
     "compilerOptions": {
         /* Basic Options */
         "target": "ES2015" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */,
-        "module": "commonjs" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */,
+        "module": "ES2015" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */,
         "lib": [
             "es2017",
             "dom"
@@ -17,7 +17,7 @@
         // "rootDir": "./",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
         // "composite": true,                     /* Enable project compilation */
         // "removeComments": true,                /* Do not emit comments to output. */
-        // "noEmit": true,                        /* Do not emit outputs. */
+        "noEmit": false,                        /* Do not emit outputs. */
         // "importHelpers": true,                 /* Import emit helpers from 'tslib'. */
         // "downlevelIteration": true,            /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
         // "isolatedModules": true,               /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
@@ -62,7 +62,8 @@
         "rootDir": "src",
         "declaration": true,
         "declarationMap": true,
-        "allowJs": false
+        "declarationDir": "dist",
+        "allowJs": true
     },
     "exclude": [
         "**/*.spec.ts",
@@ -70,7 +71,8 @@
         "**/*.spec.js",
         "**/*.test.ts",
         "**/*.test.tsx",
-        "**/*.test.js"
+        "**/*.test.js",
+        "**/node_modules/**/*"
     ],
     "include": ["src"]
 }
