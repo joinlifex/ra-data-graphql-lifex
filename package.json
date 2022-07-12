@@ -1,6 +1,6 @@
 {
     "name": "@joinlifex/ra-data-graphql-lifex",
-    "version": "4.2.4",
+    "version": "4.2.5",
     "description": "A GraphQL simple data provider for react-admin",
     "type": "module",
     "main": "dist/ra-data-graphql-lifex.cjs",
@@ -57,7 +57,7 @@
     },
     "overrides": {
         "graphql-ast-types-browser": {
-            "graphql": "$graphql"
+            "graphql": "^15.6.0"
         }
     }
 }
