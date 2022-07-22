@@ -1,21 +1,10 @@
-import { GET_LIST, GET_MANY, GET_MANY_REFERENCE, DELETE } from 'ra-core';
 import {
-    QUERY_TYPES,
-    IntrospectionResult,
-    IntrospectedResource,
-} from 'ra-data-graphql';
-import {
-    ArgumentNode,
-    IntrospectionField,
-    IntrospectionInputValue,
-    IntrospectionNamedTypeRef,
-    IntrospectionObjectType,
-    IntrospectionUnionType,
-    TypeKind,
-    TypeNode,
-    VariableDefinitionNode,
+    ArgumentNode, IntrospectionField, IntrospectionInputValue, IntrospectionNamedTypeRef,
+    IntrospectionObjectType, IntrospectionUnionType, TypeKind, TypeNode, VariableDefinitionNode
 } from 'graphql';
 import * as gqlTypes from 'graphql-ast-types-browser';
+import { DELETE, GET_LIST, GET_MANY, GET_MANY_REFERENCE } from 'ra-core';
+import { IntrospectedResource, IntrospectionResult, QUERY_TYPES } from 'ra-data-graphql';
 
 import getFinalType from './getFinalType';
 import isList from './isList';
@@ -109,7 +98,9 @@ export default (introspectionResults: IntrospectionResult) => (
                         gqlTypes.name('data'),
                         args,
                         null,
-                        gqlTypes.selectionSet(fields)
+                        gqlTypes.selectionSet([
+                            gqlTypes.field(gqlTypes.name('id'))
+                        ])
                     ),
                 ]),
                 gqlTypes.name(queryType.name),
