@@ -30,7 +30,6 @@ export default (introspectionResults: IntrospectionResult) => (
     const preparedParams = prepareParams(
         params,
         queryType,
-        raFetchMethod,
         introspectionResults
     );
 
@@ -114,7 +113,6 @@ const castType = (
 const prepareParams = (
     params: any,
     queryType: Partial<IntrospectionField>,
-    raFetchMethod: string,
     introspectionResults: IntrospectionResult
 ) => {
     const result = {};
@@ -122,19 +120,10 @@ const prepareParams = (
     if (!params) {
         return params;
     }
+
     Object.keys(params).forEach(key => {
         let param = params[key];
         let arg = null;
-        
-        if(Array.isArray(queryType.args) && key !== "data" && key !== "previousData") {
-            const subArg = queryType.args.find(a => a.name === key);
-            // we add an exception for pagination and filter fields
-            if(!subArg && (raFetchMethod !== GET_LIST && raFetchMethod !== GET_MANY && raFetchMethod !== GET_MANY_REFERENCE)) {
-                // field is not present into the schema description of the request so ignore it.
-                console.log(`remove field ${key}=${param} that is not represented into query definition: ${queryType.name}`);
-                return;
-            }
-        }
 
         if (!param) {
             result[key] = param;
@@ -171,7 +160,7 @@ const prepareParams = (
                 item =>
                     item.kind === arg.type.kind && item.name === arg.type.name
             ) as IntrospectionInputObjectType).inputFields;
-            result[key] = prepareParams(param, { args }, raFetchMethod, introspectionResults);
+            result[key] = prepareParams(param, { args }, introspectionResults);
             return;
         }
 
@@ -180,7 +169,7 @@ const prepareParams = (
             !(param instanceof Date) &&
             !Array.isArray(param)
         ) {
-            result[key] = prepareParams(param, queryType, raFetchMethod, introspectionResults);
+            result[key] = prepareParams(param, queryType, introspectionResults);
             return;
         }
 
@@ -312,8 +301,7 @@ const buildCreateUpdateVariables = (
     { id, data }: any,
     queryType: IntrospectionField
 ) =>
-   {
-    const res=  Object.keys(data).reduce(
+    Object.keys(data).reduce(
         (acc, key) => {
             if (Array.isArray(data[key])) {
                 const arg = queryType.args.find(a => a.name === `${key}Ids`);
@@ -344,5 +332,3 @@ const buildCreateUpdateVariables = (
         },
         { id }
     );
-    return res;
-}
