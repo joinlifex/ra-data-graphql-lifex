@@ -295,40 +295,51 @@ const buildGetListVariables = (introspectionResults: IntrospectionResult) => (
     return variables;
 };
 
-const buildCreateUpdateVariables = (
-    resource: IntrospectedResource,
-    raFetchMethod,
-    { id, data }: any,
-    queryType: IntrospectionField
-) =>
-    Object.keys(data).reduce(
-        (acc, key) => {
-            if (Array.isArray(data[key])) {
-                const arg = queryType.args.find(a => a.name === `${key}Ids`);
-
-                if (arg) {
-                    return {
-                        ...acc,
-                        [`${key}Ids`]: data[key].map(({ id }) => id),
-                    };
-                }
-            }
-
-            if (typeof data[key] === 'object' && data[key]) {
-                const arg = queryType.args.find(a => a.name === `${key}Id`);
-
-                if (arg) {
-                    return {
-                        ...acc,
-                        [`${key}Id`]: data[key].id,
-                    };
-                }
-            }
-
+const buildCreateUpdateVariables = (resource: IntrospectedResource, raFetchMethod, {id, data}: any, queryType: IntrospectionField) => {
+    // detect arguments that are relations and transfomr them to the correct syntax
+    // i.e.: room: {id: 100} => roomId: 100
+    // room: null => roomId: null
+    const dataWithRelationId = Object.keys(data).reduce(
+      (acc, key) => {
+        if (Array.isArray(data[key])) {
+          const arg = queryType.args.find((a) => a.name === `${key}Ids`);
+  
+          if (arg) {
             return {
-                ...acc,
-                [key]: data[key],
+              ...acc,
+              [`${key}Ids`]: data[key].map(({id}) => id),
             };
-        },
-        { id }
+          }
+        }
+  
+        if (typeof data[key] === 'object' && data[key]) {
+          const arg = queryType.args.find((a) => a.name === `${key}Id`);
+  
+          if (arg) {
+            return {
+              ...acc,
+              [`${key}Id`]: data[key].id,
+            };
+          }
+        }
+  
+        if (data[key] === null) {
+          const arg = queryType.args.find((a) => a.name === `${key}Id`);
+          if (arg) {
+            return {
+              ...acc,
+              [`${key}Id`]: null,
+            };
+          }
+        }
+  
+        return {
+          ...acc,
+          [key]: data[key],
+        };
+      },
+      {id},
     );
+
+    return dataWithRelationId;
+  };
