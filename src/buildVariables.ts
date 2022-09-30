@@ -340,6 +340,18 @@ const buildCreateUpdateVariables = (resource: IntrospectedResource, raFetchMetho
       },
       {id},
     );
-
-    return dataWithRelationId;
+  
+    // remove arguments that are not defined in queryType
+    const cleanedData = Object.keys(dataWithRelationId).reduce((acc, key) => {
+      const isDefinedInQueryType = queryType.args.find((a) => a.name === key);
+      if (isDefinedInQueryType) {
+        return {
+          ...acc,
+          [key]: dataWithRelationId[key],
+        };
+      }
+      return acc;
+    }, {});
+  
+    return cleanedData;
   };
