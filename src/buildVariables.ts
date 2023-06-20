@@ -63,6 +63,7 @@ export default (introspectionResults: IntrospectionResult) => (
         case DELETE:
             return {
                 id: preparedParams.id,
+                meta: preparedParams.meta
             };
         case CREATE:
         case UPDATE: {
